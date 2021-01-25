@@ -1,5 +1,5 @@
 const model = require('../models/blogModel')
-
+const fmt = require('../utils/dataTimeUtil')
 
 module.exports = {
     async welcome(ctx) {
@@ -20,6 +20,7 @@ module.exports = {
         let results = await model.getBlogById(blogId);
         if (results.length > 0) {
             let { blog_id, title, content, post_time } = results[0];
+            post_time = fmt.formatTime('yyyy-MM-dd hh:mm:ss',post_time)
             let blogInfo = {
                 blog_id,
                 title,
@@ -32,7 +33,7 @@ module.exports = {
                 blogInfo.comments.push({
                     comm_id: obj.comm_id,
                     comm_content: obj.comm_content,
-                    comm_post_time: obj.comm_post_time,
+                    comm_post_time: fmt.formatTime('yyyy-MM-dd hh:mm:ss',obj.comm_post_time),
                     username: obj.username
                 });
             }
